@@ -6,7 +6,13 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 
-const openai = new OpenAI(process.env.OPENAI_API_KEY);
+const apiKey: any | undefined = process.env.OPENAI_API_KEY;
+if (!apiKey) {
+    throw new Error('OpenAI API key is not provided.');
+}
+
+const openai = new OpenAI(apiKey);
+
 
 const app = express();
 app.use(cors());
