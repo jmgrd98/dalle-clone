@@ -27,10 +27,21 @@ function App() {
     }
   };
 
-  const uploadImage = (e: any) => {
+  const uploadImage = async (e: any) => {
     const formData: any = new FormData();
     formData.append('file', e.target.files[0]);
-    setSelectedImage(formData);
+    setSelectedImage(e.target.files[0]);
+
+    try {
+      const options = {
+        method: 'POST',
+        body: formData
+      }
+      const response = await fetch('http://localhost:5000/upload', options);
+      const data = await response.json();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
