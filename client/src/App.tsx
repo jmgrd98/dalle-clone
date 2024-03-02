@@ -40,6 +40,12 @@ function App() {
           <input onChange={(e: any) => setValue(e.target.value)} className='bg-gray-200 border-2 w-full border-black rounded p-2' placeholder='An impressionist oil painting of a sunflower in a purple vase...' type='text'></input>
           <button className='border-black border-2' onClick={getImages}>Generate</button>
         </div>
+        <p className=''>Or, <span>
+          <label for='files'>Upload an image </label>
+          <input id='files' accept='image/*' type='file' hidden></input>
+        </span>
+        to edit.
+        </p>
         {error && <p>{error}</p>}
       </section>
 
