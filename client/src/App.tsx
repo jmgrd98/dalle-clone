@@ -4,13 +4,14 @@ function App() {
 
   const [images, setImages] = useState([]);
   const [value, setValue] = useState(null);
+  const [error, setError] = useState(null);
 
   const getImages = async () => {
     try {
       const options = {
         method: 'POST',
         body: JSON.stringify({
-          message: "BLugh",
+          message: value,
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -39,11 +40,12 @@ function App() {
           <input onChange={(e: any) => setValue(e.target.value)} className='bg-gray-200 border-2 w-full border-black rounded p-2' placeholder='An impressionist oil painting of a sunflower in a purple vase...' type='text'></input>
           <button className='border-black border-2' onClick={getImages}>Generate</button>
         </div>
+        {error && <p>{error}</p>}
       </section>
 
-      <section>
+      <section className='w-full flex flex-wrap gap-3 items-stretch m-20'>
         {images?.map((image: any, _index) => (
-          <img key={_index} src={image.url} alt="Image" />
+          <img key={_index} src={image.url} alt="Image" width={200} height={200} />
         ))}
       </section>
     </div>

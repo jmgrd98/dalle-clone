@@ -27,7 +27,7 @@ app.post('/images', async (req, res) => {
     try {
         const response = await openai.images.generate({
             model: "dall-e-3",
-            prompt: "a white siamese cat",
+            prompt: req.body.message,
             n: 1,
             size: "1024x1024",
           });
