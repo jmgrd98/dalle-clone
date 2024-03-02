@@ -8,10 +8,10 @@ import multer from 'multer';
 dotenv.config();
 
 const storage = multer.diskStorage({
-    destination: (req, file, cb) => {
+    destination: (req: any, file: any, cb: any) => {
         cb(null, 'public')
     },
-    filename: (req, file, cb) => {
+    filename: (req: any, file: any, cb: any) => {
         cb(null, Date.now() + "-" + file.originalname)
     }
 })
@@ -51,14 +51,20 @@ app.post('/images', async (req, res) => {
 });
 
 app.post('/upload', async (req, res) => {
-    upload(req, res, (err) => {
+    upload(req, res, (err: any) => {
         if (err instanceof multer.MulterError) {
-            return res.status(500) .json(err);
+            return res.status(500).json({ error: 'Multer error', message: err.message });
         } else if (err) {
-            return res.status(500) .json(err);
+            return res.status(500).json({ error: 'Internal serve r error', message: err.message });
         }
-        console.log(req.file);
-    })
+
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+
+        console.log('File uploaded:', req.file);
+        res.status(200).json({ message: 'File uploaded successfully', file: req.file });
+    });
 });
 
 const PORT = 5000;

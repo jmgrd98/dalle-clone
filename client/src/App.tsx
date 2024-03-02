@@ -44,13 +44,20 @@ function App() {
     }
   }
 
+  // const surpriseMe = () => {
+  //   setImages(null);
+  //   const randomValue = surpriseOptions[Math.floor(Math.random() * surpriseOptions.length)]
+  // }
+
   return (
     <div className='w-screen flex flex-col items-center p-10'>
       <section className='w-full flex flex-col gap-3 items-center'>
         <div className='flex gap-5 items-center'>
           <p className='text-gray-400'>Start with a detailed description
 
-            <span className='ml-5 bg-gray-400 text-black font-bold p-[5px] rounded'>Surprise me</span>
+            <span
+            //  onClick={surpriseMe()}
+             className='ml-5 bg-gray-400 text-black font-bold p-[5px] rounded'>Surprise me</span>
           </p>
         </div>
 
@@ -60,7 +67,7 @@ function App() {
         </div>
         <p className=''>Or, <span>
           <label for='files'>Upload an image </label>
-          <input onChange={uploadImage} multiple id='files' accept='image/*' type='file' hidden></input>
+          <input onChange={(e) => uploadImage(e)} id='files' accept='image/*' type='file' hidden/>
         </span>
         to edit.
         </p>
