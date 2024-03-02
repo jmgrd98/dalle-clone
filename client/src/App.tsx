@@ -5,6 +5,7 @@ function App() {
   const [images, setImages] = useState([]);
   const [value, setValue] = useState(null);
   const [error, setError] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
 
   const getImages = async () => {
     try {
@@ -26,6 +27,12 @@ function App() {
     }
   };
 
+  const uploadImage = (e: any) => {
+    const formData: any = new FormData();
+    formData.append('file', e.target.files[0]);
+    setSelectedImage(formData);
+  }
+
   return (
     <div className='w-screen flex flex-col items-center p-10'>
       <section className='w-full flex flex-col gap-3 items-center'>
@@ -42,7 +49,7 @@ function App() {
         </div>
         <p className=''>Or, <span>
           <label for='files'>Upload an image </label>
-          <input id='files' accept='image/*' type='file' hidden></input>
+          <input onChange={uploadImage} multiple id='files' accept='image/*' type='file' hidden></input>
         </span>
         to edit.
         </p>
