@@ -5,6 +5,10 @@ import dotenv from 'dotenv';
 import fs from 'fs';
 import multer from 'multer';
 
+const app = express();
+app.use(cors());
+app.use(express.json());
+
 dotenv.config();
 
 const storage = multer.diskStorage({
@@ -12,6 +16,7 @@ const storage = multer.diskStorage({
         cb(null, 'public')
     },
     filename: (req: any, file: any, cb: any) => {
+        console.log(file)
         cb(null, Date.now() + "-" + file.originalname)
     }
 })
@@ -24,11 +29,6 @@ if (!apiKey) {
 }
 
 const openai = new OpenAI(apiKey);
-
-
-const app = express();
-app.use(cors());
-app.use(express.json());
 
 app.get('/', (req, res) => {
     res.send('Hello, World!');
@@ -43,7 +43,6 @@ app.post('/images', async (req, res) => {
             n: 1,
             size: "1024x1024",
           });
-          console.log(response)
           res.send(response.data);
     } catch (error) {
         console.error(error);
@@ -52,10 +51,11 @@ app.post('/images', async (req, res) => {
 
 app.post('/upload', async (req, res) => {
     upload(req, res, (err: any) => {
+        console.log(req.file)
         if (err instanceof multer.MulterError) {
             return res.status(500).json({ error: 'Multer error', message: err.message });
         } else if (err) {
-            return res.status(500).json({ error: 'Internal serve r error', message: err.message });
+            return res.status(500).json({ error: 'Internal server error', message: err.message });
         }
 
         if (!req.file) {

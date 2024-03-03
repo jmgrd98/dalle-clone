@@ -29,15 +29,20 @@ function App() {
 
   const uploadImage = async (e: any) => {
     const formData: any = new FormData();
-    formData.append('file', e.target.files[0]);
+    const file = e.target.files[0]
+    formData.append('file', file);
     setSelectedImage(e.target.files[0]);
 
     try {
       const options = {
         method: 'POST',
-        body: formData
-      }
+        body: formData,
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    };
       const response = await fetch('http://localhost:5000/upload', options);
+      console.log(response)
       const data = await response.json();
     } catch (error) {
       console.error(error);
@@ -66,7 +71,7 @@ function App() {
           <button className='border-black border-2' onClick={getImages}>Generate</button>
         </div>
         <p className=''>Or, <span>
-          <label for='files'>Upload an image </label>
+          <label htmlFor='files'>Upload an image </label>
           <input onChange={(e) => uploadImage(e)} id='files' accept='image/*' type='file' hidden/>
         </span>
         to edit.
