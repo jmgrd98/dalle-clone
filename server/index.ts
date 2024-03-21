@@ -19,7 +19,9 @@ const storage = multer.diskStorage({
         cb(null, Date.now() + "-" + file.originalname)
     }
 })
+
 const upload = multer({ storage: storage }).single('file');
+let filePath;
 
 
 const apiKey: any | undefined = process.env.OPENAI_API_KEY;
@@ -62,10 +64,25 @@ app.post('/upload', async (req, res) => {
             return res.status(400).json({ error: 'No file uploaded' });
         }
 
+        filePath = req.file.path;
+
         console.log('File uploaded:', req.file);
         res.status(200).json({ message: 'File uploaded successfully', file: req.file });
     });
 });
+
+app.post('/variations', async (req, res) => {
+    try {
+        const response: any = await openai.images.createVariation({
+            image: fs.createReadStream(filePath) as any,
+        });
+        res.send(response.data.data);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ error: 'Internal server error' });
+    }
+});
+
 
 app.post('/surprise-me', async (req: any, res: any) => {
 

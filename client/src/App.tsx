@@ -58,7 +58,7 @@ function App() {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   const surpriseMe = async () => {
       setImages([]);
@@ -70,7 +70,22 @@ function App() {
      } catch (error) {
       console.error(error);
      }
-  }
+  };
+
+  const generateVariations  = async () => {
+    try {
+      const options = {
+        method: 'POST',
+      }
+      const response = await fetch('http://localhost:5000/variations', options);
+      const data = await response.json();
+      setImages(data);
+      setError('');
+      setModalOpen(false);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className='w-screen flex flex-col items-center p-10'>
@@ -104,7 +119,9 @@ function App() {
             <Modal 
               setModalOpen={setModalOpen}
               selectedImage={selectedImage}
-              setSelectedImage={setSelectedImage} />
+              setSelectedImage={setSelectedImage} 
+              generateVariations={generateVariations}  
+            />
           </div>
         )}
       </section>
