@@ -13,10 +13,9 @@ dotenv.config();
 
 const storage = multer.diskStorage({
     destination: (req: any, file: any, cb: any) => {
-        cb(null, 'public')
+        cb(null, '../client/public')
     },
     filename: (req: any, file: any, cb: any) => {
-        console.log(file)
         cb(null, Date.now() + "-" + file.originalname)
     }
 })
@@ -51,10 +50,11 @@ app.post('/images', async (req, res) => {
 
 app.post('/upload', async (req, res) => {
     upload(req, res, (err: any) => {
-        console.log(req.file)
         if (err instanceof multer.MulterError) {
+            console.error('Multer error:', err);
             return res.status(500).json({ error: 'Multer error', message: err.message });
         } else if (err) {
+            console.error('Internal server error:', err);
             return res.status(500).json({ error: 'Internal server error', message: err.message });
         }
 
@@ -66,6 +66,7 @@ app.post('/upload', async (req, res) => {
         res.status(200).json({ message: 'File uploaded successfully', file: req.file });
     });
 });
+
 
 const PORT = 5000;
 app.listen(PORT, () => {

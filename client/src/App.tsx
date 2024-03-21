@@ -38,15 +38,13 @@ function App() {
     const formData: any = new FormData();
     const file = e.target.files[0]
     formData.append('file', file);
+    console.log(formData)
     setSelectedImage(e.target.files[0]);
 
     try {
       const options = {
         method: 'POST',
         body: formData,
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
     };
       const response = await fetch('http://localhost:5000/upload', options);
       const data = await response.json();
@@ -87,7 +85,7 @@ function App() {
         {error && <p>{error}</p>}
       </section>
 
-      <section className='w-full flex flex-wrap gap-3 items-center m-20'>
+      <section className='w-full flex flex-wrap gap-3 items-stretchgi m-20'>
         {loading && <Loader />}
         {images?.map((image: any, _index) => (
           <img key={_index} src={image.url} alt="Image" width={200} height={200} />
