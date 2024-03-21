@@ -1,13 +1,21 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Loader from './components/Loader';
+import Modal from './components/Modal';
 
 function App() {
 
   const [images, setImages] = useState([]);
-  const [value, setValue] = useState(null);
+  const [value, setValue] = useState('');
   const [error, setError] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const surpriseOptions = [
+    'A blue ostrich eating melon',
+    'A matisse style shark on the telephone',
+    'A pineapple sunbathing on an island'
+  ]
 
   const getImages = async () => {
     setLoading(true);
@@ -57,19 +65,26 @@ function App() {
     }
   }
 
+  const surpriseMe = () => {
+    setImages([]);
+     const randomValue = surpriseOptions[Math.floor(Math.random() * surpriseOptions.length)];
+     setValue(randomValue);
+  }
+
   return (
     <div className='w-screen flex flex-col items-center p-10'>
       <section className='w-full flex flex-col gap-5 items-left'>
         <div className='flex gap-5'>
           <p className='text-gray-400'>Start with a detailed description
             <span
-            //  onClick={surpriseMe()}
+             onClick={surpriseMe}
              className='ml-5 bg-gray-500/10 text-black font-bold py-1 px-5 rounded cursor-pointer hover:bg-gray-500/20'>Surprise me</span>
           </p>
         </div>
 
         <div className='flex items-center w-full'>
-          <input 
+          <input
+            value={value!}
             onChange={(e: any) => setValue(e.target.value)}
             className=' w-full shadow-lg rounded p-2'
             placeholder='An impressionist oil painting of a sunflower in a purple vase...'
