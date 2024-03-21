@@ -43,6 +43,7 @@ function App() {
     };
       const response = await fetch('http://localhost:5000/upload', options);
       const data = await response.json();
+      console.log(data);
     } catch (error) {
       console.error(error);
     }
@@ -61,13 +62,17 @@ function App() {
 
             <span
             //  onClick={surpriseMe()}
-             className='ml-5 bg-gray-400 text-black font-bold p-[5px] rounded'>Surprise me</span>
+             className='ml-5 bg-gray-500/10 text-black font-bold py-2 px-5 rounded cursor-pointer hover:bg-gray-500/20'>Surprise me</span>
           </p>
         </div>
 
-        <div className='flex gap-5 items-center justify-center text-center w-full'>
-          <input onChange={(e: any) => setValue(e.target.value)} className='bg-gray-200 border-2 w-full border-black rounded p-2' placeholder='An impressionist oil painting of a sunflower in a purple vase...' type='text'></input>
-          <button className='border-black border-2' onClick={getImages}>Generate</button>
+        <div className='flex items-center justify-center text-center w-full'>
+          <input 
+            onChange={(e: any) => setValue(e.target.value)}
+            className=' w-full shadow-lg rounded p-2'
+            placeholder='An impressionist oil painting of a sunflower in a purple vase...'
+            type='text'/>
+          <button className={value ? 'bg-black text-white' : 'border-2 border-l-gray-500/20 shadow-lg'} onClick={getImages}>Generate</button>
         </div>
         <p className=''>Or, <span>
           <label htmlFor='files'>Upload an image </label>
@@ -87,4 +92,4 @@ function App() {
   )
 }
 
-export default App
+export default App;
