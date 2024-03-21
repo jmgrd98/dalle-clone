@@ -10,7 +10,7 @@ function App() {
   const [error, setError] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [modalOpen, setModalOpen] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
 
   const getImages = async () => {
     setLoading(true);
@@ -41,7 +41,7 @@ function App() {
     const formData: any = new FormData();
     const file = e.target.files[0]
     formData.append('file', file);
-    console.log(formData)
+    setModalOpen(true);
     setSelectedImage(e.target.files[0]);
 
     try {
@@ -100,9 +100,12 @@ function App() {
         </p>
         {error && <p>{error}</p>}
         {modalOpen && (
-        <div className='overlay'>
-          <Modal />
-        </div>
+          <div className='absolute top-0 left-0 w-screen h-screen bg-black/20 overflow-hidden flex items-center justif-center z-10'>
+            <Modal 
+              setModalOpen={setModalOpen}
+              selectedImage={selectedImage}
+              setSelectedImage={setSelectedImage} />
+          </div>
         )}
       </section>
 
