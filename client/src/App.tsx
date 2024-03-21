@@ -43,6 +43,7 @@ function App() {
     formData.append('file', file);
     setModalOpen(true);
     setSelectedImage(e.target.files[0]);
+    e.target.value = null;
 
     try {
       const options = {
@@ -51,7 +52,6 @@ function App() {
     };
       const response = await fetch('http://localhost:5000/upload', options);
       const data = await response.json();
-      console.log(data);
     } catch (error) {
       setError(error);
       console.error(error);
@@ -65,7 +65,6 @@ function App() {
 
      try {
       const response = await axios.post('http://localhost:5000/surprise-me');
-      console.log(response);
       setValue(response.data.choices[0].message.content);
      } catch (error) {
       console.error(error);
@@ -73,12 +72,21 @@ function App() {
   };
 
   const generateVariations  = async () => {
+    setImages([]);
+    if (selectedImage === null) {
+      setError('Error! Must have an existing image');
+      setModalOpen(false);
+      return;
+    }
+
     try {
       const options = {
         method: 'POST',
       }
       const response = await fetch('http://localhost:5000/variations', options);
+      console.log(response)
       const data = await response.json();
+      console.log(data)
       setImages(data);
       setError('');
       setModalOpen(false);

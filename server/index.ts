@@ -21,7 +21,7 @@ const storage = multer.diskStorage({
 })
 
 const upload = multer({ storage: storage }).single('file');
-let filePath;
+let filePath: any;
 
 
 const apiKey: any | undefined = process.env.OPENAI_API_KEY;
@@ -66,7 +66,6 @@ app.post('/upload', async (req, res) => {
 
         filePath = req.file.path;
 
-        console.log('File uploaded:', req.file);
         res.status(200).json({ message: 'File uploaded successfully', file: req.file });
     });
 });
@@ -76,7 +75,7 @@ app.post('/variations', async (req, res) => {
         const response: any = await openai.images.createVariation({
             image: fs.createReadStream(filePath) as any,
         });
-        res.send(response.data.data);
+        res.send(response.data);
     } catch (error) {
         console.error(error);
         res.status(500).send({ error: 'Internal server error' });
