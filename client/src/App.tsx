@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import Loader from './components/Loader';
 import Modal from './components/Modal';
+import axios from 'axios';
 
 function App() {
 
@@ -9,13 +10,7 @@ function App() {
   const [error, setError] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const surpriseOptions = [
-    'A blue ostrich eating melon',
-    'A matisse style shark on the telephone',
-    'A pineapple sunbathing on an island'
-  ]
+  const [modalOpen, setModalOpen] = useState(true);
 
   const getImages = async () => {
     setLoading(true);
@@ -65,10 +60,16 @@ function App() {
     }
   }
 
-  const surpriseMe = () => {
-    setImages([]);
-     const randomValue = surpriseOptions[Math.floor(Math.random() * surpriseOptions.length)];
-     setValue(randomValue);
+  const surpriseMe = async () => {
+      setImages([]);
+
+     try {
+      const response = await axios.post('http://localhost:5000/surprise-me');
+      console.log(response);
+      setValue(response.data.choices[0].message.content);
+     } catch (error) {
+      console.error(error);
+     }
   }
 
   return (
@@ -98,6 +99,11 @@ function App() {
         to edit.
         </p>
         {error && <p>{error}</p>}
+        {modalOpen && (
+        <div className='overlay'>
+          <Modal />
+        </div>
+        )}
       </section>
 
       <section className='w-full flex flex-wrap gap-3 items-stretchgi m-20'>
