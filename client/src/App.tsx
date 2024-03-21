@@ -1,13 +1,16 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import Loader from './components/Loader';
 
 function App() {
 
   const [images, setImages] = useState([]);
   const [value, setValue] = useState(null);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<any>(null);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const getImages = async () => {
+    setLoading(true);
     try {
       const options = {
         method: 'POST',
@@ -23,11 +26,15 @@ function App() {
       setImages(data);
       console.log(data);
     } catch (error) {
+      setError(error);
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
   const uploadImage = async (e: any) => {
+    setLoading(true);
     const formData: any = new FormData();
     const file = e.target.files[0]
     formData.append('file', file);
@@ -45,28 +52,25 @@ function App() {
       const data = await response.json();
       console.log(data);
     } catch (error) {
+      setError(error);
       console.error(error);
+    } finally {
+      setLoading(false);
     }
   }
 
-  // const surpriseMe = () => {
-  //   setImages(null);
-  //   const randomValue = surpriseOptions[Math.floor(Math.random() * surpriseOptions.length)]
-  // }
-
   return (
     <div className='w-screen flex flex-col items-center p-10'>
-      <section className='w-full flex flex-col gap-3 items-center'>
-        <div className='flex gap-5 items-center'>
+      <section className='w-full flex flex-col gap-5 items-left'>
+        <div className='flex gap-5'>
           <p className='text-gray-400'>Start with a detailed description
-
             <span
             //  onClick={surpriseMe()}
-             className='ml-5 bg-gray-500/10 text-black font-bold py-2 px-5 rounded cursor-pointer hover:bg-gray-500/20'>Surprise me</span>
+             className='ml-5 bg-gray-500/10 text-black font-bold py-1 px-5 rounded cursor-pointer hover:bg-gray-500/20'>Surprise me</span>
           </p>
         </div>
 
-        <div className='flex items-center justify-center text-center w-full'>
+        <div className='flex items-center w-full'>
           <input 
             onChange={(e: any) => setValue(e.target.value)}
             className=' w-full shadow-lg rounded p-2'
@@ -74,8 +78,8 @@ function App() {
             type='text'/>
           <button className={value ? 'bg-black text-white' : 'border-2 border-l-gray-500/20 shadow-lg'} onClick={getImages}>Generate</button>
         </div>
-        <p className=''>Or, <span>
-          <label htmlFor='files'>Upload an image </label>
+        <p className='m-auto cursor-pointer'>Or, <span>
+          <label className='m-auto cursor-pointer' htmlFor='files'>Upload an image </label>
           <input onChange={(e) => uploadImage(e)} id='files' accept='image/*' type='file' hidden/>
         </span>
         to edit.
@@ -83,7 +87,8 @@ function App() {
         {error && <p>{error}</p>}
       </section>
 
-      <section className='w-full flex flex-wrap gap-3 items-stretch m-20'>
+      <section className='w-full flex flex-wrap gap-3 items-center m-20'>
+        {loading && <Loader />}
         {images?.map((image: any, _index) => (
           <img key={_index} src={image.url} alt="Image" width={200} height={200} />
         ))}
