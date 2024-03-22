@@ -53,6 +53,7 @@ function App() {
     };
       const response = await fetch('http://localhost:5000/upload', options);
       const data = await response.json();
+      console.log(data);
     } catch (error) {
       setError(error);
       console.error(error);
