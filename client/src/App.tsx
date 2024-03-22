@@ -34,6 +34,7 @@ function App() {
     } finally {
       setLoading(false);
     }
+    
   };
 
   const uploadImage = async (e: any) => {
