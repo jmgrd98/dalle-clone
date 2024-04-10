@@ -114,7 +114,7 @@ function App() {
           <p className='text-gray-400'>Start with a detailed description
             <span
              onClick={surpriseMe}
-             className='ml-5 border border-black/80 text-black font-bold py-1 px-5 rounded cursor-pointer hover:bg-gray-500/20'>Surprise me</span>
+             className='ml-5 border border-black text-black hover:bg-black hover:text-white font-bold py-1 px-5 rounded cursor-pointer '>Surprise me</span>
           </p>
         </div>
 
@@ -122,12 +122,12 @@ function App() {
           <input
             value={value!}
             onChange={(e: any) => setValue(e.target.value)}
-            className=' w-full shadow-lg rounded p-2 bg-white border border-black/80 text-black/80'
+            className=' w-full shadow-lg rounded p-2 bg-white border border-black text-black'
             placeholder='An impressionist oil painting of a sunflower in a purple vase...'
             type='text'/>
           <button
             disabled={!value}
-            className={value ? 'bg-black text-white ml-5' : 'border-2 border-black/80 text-black/80 ml-5 shadow-2xl'}
+            className={value ? 'bg-black text-white ml-5 cursor-pointer' : 'border-2 border-black text-black ml-5 shadow-2xl cursor-pointer'}
             onClick={getImages}>
               Generate
           </button>
