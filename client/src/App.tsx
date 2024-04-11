@@ -26,8 +26,8 @@ function App() {
           'Content-Type': 'application/json'
         }
       }
-      // const response = await fetch('https://chatgpt-server-completions.onrender.com/images', options);
-      const response = await fetch('http://localhost:5000/images', options);
+      const response = await fetch('https:/chatgpt-server-completions.onrender.com/images', options);
+      // const response = await fetch('http://localhost:5000/images', options);
       const data = await response.json();
       setImages(data);
       console.log(data);
@@ -55,8 +55,8 @@ function App() {
         method: 'POST',
         body: formData,
     };
-      // const response = await fetch('https://chatgpt-server-completions.onrender.com/upload', options);
-      const response = await fetch('http://localhost:5000/upload', options);
+      const response = await fetch('https://chatgpt-server-completions.onrender.com/upload', options);
+      // const response = await fetch('http://localhost:5000/upload', options);
       const data = await response.json();
       console.log(data);
     } catch (error) {
@@ -72,8 +72,8 @@ function App() {
       setImages([]);
 
      try {
-      // const response = await axios.post('https://chatgpt-server-completions.onrender.com:5000/surprise-me');
-      const response = await axios.post('http://localhost:5000/surprise-me');
+      const response = await axios.post('https://chatgpt-server-completions.onrender.com:5000/surprise-me');
+      // const response = await axios.post('http://localhost:5000/surprise-me');
       setValue(response.data.choices[0].message.content);
      } catch (error) {
       toast.error('Something went wrong, please try again.');
@@ -93,8 +93,8 @@ function App() {
       const options = {
         method: 'POST',
       }
-      // const response = await fetch('https://chatgpt-server-completions.onrender.com:5000/variations', options);
-      const response = await fetch('http://localhost:5000/variations', options);
+      const response = await fetch('https://chatgpt-server-completions.onrender.com:5000/variations', options);
+      // const response = await fetch('http://localhost:5000/variations', options);
       console.log(response)
       const data = await response.json();
       console.log(data)
