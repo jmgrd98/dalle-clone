@@ -13,7 +13,7 @@ function App() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [loading, setLoading] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-
+  const [selectedQuantity, setSelectedQuantity] = useState(1);
   const getImages = async () => {
     setLoading(true);
     try {
@@ -21,15 +21,13 @@ function App() {
         method: 'POST',
         body: JSON.stringify({
           message: value,
+          quantity: selectedQuantity, // Add selected quantity to the request body
         }),
         headers: {
           'Content-Type': 'application/json'
         }
       }
-      console.log(options)
-      const response = await fetch('https:/chatgpt-server-completions.onrender.com/images', options);
-      // const response = await fetch('http://localhost:5000/images', options);
-      console.log(response)
+      const response = await fetch('https://chatgpt-server-completions.onrender.com/images', options);
       const data = await response.json();
       setImages(data);
       toast.success('Images generated successfully!');
@@ -40,8 +38,8 @@ function App() {
     } finally {
       setLoading(false);
     }
-    
   };
+  
 
   const uploadImage = async (e: any) => {
     setLoading(true);
@@ -130,17 +128,14 @@ function App() {
             className=' w-full shadow-lg rounded p-2 bg-white border border-black text-black'
             placeholder='An impressionist oil painting of a sunflower in a purple vase...'
             type='text'/>
-            <select className='p-2 bg-white text-black border border-black rounded'>
-              <option>1 image</option>
-              <option>2 images</option>
-              <option>3 images</option>
-              <option>4 images</option>
-              <option>5 images</option>
-              <option>6 images</option>
-              <option>7 images</option>
-              <option>8 images</option>
-              <option>9 images</option>
-              <option>10 images</option>
+            <select
+              className='p-2 bg-white text-black border border-black rounded'
+              value={selectedQuantity}
+              onChange={(e) => setSelectedQuantity(parseInt(e.target.value))}
+            >
+              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((quantity) => (
+                <option key={quantity} value={quantity}>{quantity} image{quantity > 1 ? 's' : ''}</option>
+              ))}
             </select>
           <button
             disabled={!value}
@@ -149,11 +144,11 @@ function App() {
               Generate
           </button>
         </div>
-        <p className='m-auto cursor-pointer'>Or, <span>
-          <label className='m-auto cursor-pointer' htmlFor='files'>Upload an image </label>
+        <p className='m-auto cursor-pointer text-black'>Or, <span>
+          <label className='m-auto cursor-pointer border border-black py-1 px-2 rounded hover:text-white hover:bg-black' htmlFor='files'>Upload an image to edit.</label>
           <input onChange={(e) => uploadImage(e)} id='files' accept='image/*' type='file' hidden/>
         </span>
-        to edit.
+        
         </p>
         {error && <p>{error}</p>}
         {modalOpen && (

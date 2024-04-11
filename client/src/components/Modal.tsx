@@ -25,8 +25,8 @@ const Modal = ({ setModalOpen, selectedImage, setSelectedImage, generateVariatio
         {selectedImage && <img ref={ref} src={URL.createObjectURL(selectedImage)} alt="Uploaded image" />}
       </div>
       <p>{error || '*Image must be 256x256'}</p>
-      {!error && <button onClick={checkSize} className="w-full p-[20px] border-none bg-white active:bg-[#fafafc]">Generate</button>}
-      {error && <button onClick={closeModal}>Close this and try again</button>}
+      {!error && <button onClick={checkSize} className="w-full p-[20px] border-none bg-black active:bg-[#fafafc]">Generate</button>}
+      {error && <button className='bg-black text-white' onClick={closeModal}>Close this and try again</button>}
     </div>
   )
 }
