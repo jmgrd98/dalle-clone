@@ -26,8 +26,10 @@ function App() {
           'Content-Type': 'application/json'
         }
       }
+      console.log(options)
       const response = await fetch('https:/chatgpt-server-completions.onrender.com/images', options);
       // const response = await fetch('http://localhost:5000/images', options);
+      console.log(response)
       const data = await response.json();
       setImages(data);
       toast.success('Images generated successfully!');
@@ -73,7 +75,8 @@ function App() {
       setImages([]);
 
      try {
-      const response = await axios.post('https://chatgpt-server-completions.onrender.com:5000/surprise-me');
+      const response = await axios.post('https://chatgpt-server-completions.onrender.com/surprise-me');
+      console.log(response)
       // const response = await axios.post('http://localhost:5000/surprise-me');
       setValue(response.data.choices[0].message.content);
      } catch (error) {
@@ -94,7 +97,7 @@ function App() {
       const options = {
         method: 'POST',
       }
-      const response = await fetch('https://chatgpt-server-completions.onrender.com:5000/variations', options);
+      const response = await fetch('https://chatgpt-server-completions.onrender.com/variations', options);
       // const response = await fetch('http://localhost:5000/variations', options);
       console.log(response)
       const data = await response.json();
@@ -120,16 +123,28 @@ function App() {
           </p>
         </div>
 
-        <div className='flex items-center w-full'>
+        <div className='flex items-center gap-5 w-full'>
           <input
             value={value!}
             onChange={(e: any) => setValue(e.target.value)}
             className=' w-full shadow-lg rounded p-2 bg-white border border-black text-black'
             placeholder='An impressionist oil painting of a sunflower in a purple vase...'
             type='text'/>
+            <select className='p-2 bg-white text-black border border-black rounded'>
+              <option>1 image</option>
+              <option>2 images</option>
+              <option>3 images</option>
+              <option>4 images</option>
+              <option>5 images</option>
+              <option>6 images</option>
+              <option>7 images</option>
+              <option>8 images</option>
+              <option>9 images</option>
+              <option>10 images</option>
+            </select>
           <button
             disabled={!value}
-            className={value ? 'bg-black text-white ml-5 cursor-pointer' : 'border-2 border-black text-black ml-5 shadow-2xl cursor-pointer'}
+            className={value ? 'bg-black text-white ml-10 cursor-pointer' : 'border-2 border-black text-black ml-5 shadow-2xl cursor-pointer'}
             onClick={getImages}>
               Generate
           </button>
