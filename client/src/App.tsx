@@ -30,7 +30,7 @@ function App() {
       // const response = await fetch('http://localhost:5000/images', options);
       const data = await response.json();
       setImages(data);
-      console.log(data);
+      toast.success('Images generated successfully!');
     } catch (error) {
       setError(error);
       toast.error('Something went wrong, please try again.');
@@ -58,6 +58,7 @@ function App() {
       const response = await fetch('https://chatgpt-server-completions.onrender.com/upload', options);
       // const response = await fetch('http://localhost:5000/upload', options);
       const data = await response.json();
+      toast.success('Image uploaded successfully!');
       console.log(data);
     } catch (error) {
       setError(error);
@@ -101,6 +102,7 @@ function App() {
       setImages(data);
       setError('');
       setModalOpen(false);
+      toast.success('Variations generated successfully!');
     } catch (error) {
       toast.error('Something went wrong, please try again.');
       console.error(error);
