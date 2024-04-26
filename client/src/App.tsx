@@ -27,7 +27,8 @@ function App() {
           'Content-Type': 'application/json'
         }
       }
-      const response = await fetch('https://chatgpt-server-completions.onrender.com/images', options);
+      // const response = await fetch('https://chatgpt-server-completions.onrender.com/images', options);
+      const response = await fetch('http://localhost:5000/images', options);
       const data = await response.json();
       setImages(data);
       toast.success('Images generated successfully!');
