@@ -21,7 +21,7 @@ function App() {
         method: 'POST',
         body: JSON.stringify({
           message: value,
-          quantity: selectedQuantity, // Add selected quantity to the request body
+          quantity: selectedQuantity,
         }),
         headers: {
           'Content-Type': 'application/json'
@@ -56,8 +56,8 @@ function App() {
         method: 'POST',
         body: formData,
     };
-      const response = await fetch('https://chatgpt-server-completions.onrender.com/upload', options);
-      // const response = await fetch('http://localhost:5000/upload', options);
+      // const response = await fetch('https://chatgpt-server-completions.onrender.com/upload', options);
+      const response = await fetch('http://localhost:5000/upload', options);
       const data = await response.json();
       toast.success('Image uploaded successfully!');
       console.log(data);
@@ -74,9 +74,8 @@ function App() {
       setImages([]);
 
      try {
-      const response = await axios.post('https://chatgpt-server-completions.onrender.com/surprise-me');
-      console.log(response)
-      // const response = await axios.post('http://localhost:5000/surprise-me');
+      // const response = await axios.post('https://chatgpt-server-completions.onrender.com/surprise-me');
+      const response = await axios.post('http://localhost:5000/surprise-me');
       setValue(response.data.choices[0].message.content);
      } catch (error) {
       toast.error('Something went wrong, please try again.');
@@ -96,8 +95,8 @@ function App() {
       const options = {
         method: 'POST',
       }
-      const response = await fetch('https://chatgpt-server-completions.onrender.com/variations', options);
-      // const response = await fetch('http://localhost:5000/variations', options);
+      // const response = await fetch('https://chatgpt-server-completions.onrender.com/variations', options);
+      const response = await fetch('http://localhost:5000/variations', options);
       console.log(response)
       const data = await response.json();
       console.log(data)

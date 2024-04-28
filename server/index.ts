@@ -31,17 +31,12 @@ if (!apiKey) {
 
 const openai = new OpenAI(apiKey);
 
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
-});
-
-
 app.post('/images', async (req, res) => {
     try {
         const response = await openai.images.generate({
-            model: "dall-e-3",
+            model: "dall-e-2",
             prompt: req.body.message,
-            n: 1,
+            n: req.body.quantity,
             size: "1024x1024",
           });
           res.send(response.data);
@@ -73,6 +68,7 @@ app.post('/upload', async (req, res) => {
 app.post('/variations', async (req, res) => {
     try {
         const response: any = await openai.images.createVariation({
+            model: "dall-e-2",
             image: fs.createReadStream(filePath) as any,
         });
         res.send(response.data);
